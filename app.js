@@ -32,6 +32,16 @@ app.post('/api/v1/tours', (req, res) => {
   );
 });
 
+app.get(`/api/v1/tours/:id`, (req, res) => {
+  const { id: idFromUrl } = req.params;
+  const tour = tours.find((tour) => tour.id === +idFromUrl);
+
+  if (!tour) {
+    return res.status(404).json({ status: 'fail', message: 'Id not found' });
+  }
+  res.status(200).json({ message: 'success', data: { tour } });
+});
+
 const PORT = 8000;
 
 app.listen(PORT, () => {
