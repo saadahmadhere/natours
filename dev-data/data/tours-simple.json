@@ -138,7 +138,7 @@
   {
     "id": 10,
     "name": "Test tour",
-    "duration": "20 days",
+    "duration": "10 days",
     "difficulty": "easy",
     "field": "this field is edited via a patch request."
   }

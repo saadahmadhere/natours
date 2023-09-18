@@ -64,6 +64,23 @@ app.patch(`/api/v1/tours/:id`, (req, res) => {
   );
 });
 
+app.delete('/api/v1/tours/:id', (req, res) => {
+  const { id: idFromUrl } = req.params;
+  const newTours = tours.filter((tour) => tour.id !== +idFromUrl);
+
+  if (newTours.length === tours.length) {
+    return res.status(404).json({ status: 'fail', message: 'Id not found' });
+  }
+
+  fs.writeFile(
+    `${__dirname}/dev-data/data/tours-simple.json`,
+    JSON.stringify(newTours),
+    () => {
+      res.status(204).json({ message: 'success', data: null });
+    }
+  );
+});
+
 const PORT = 8000;
 
 app.listen(PORT, () => {
