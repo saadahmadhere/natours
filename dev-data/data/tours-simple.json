@@ -141,5 +141,6 @@
     "duration": "10 days",
     "difficulty": "easy",
     "field": "this field is edited via a patch request."
-  }
+  },
+  { "id": 11, "name": "Test tour", "duration": "20 days", "difficulty": "hard" }
 ]
