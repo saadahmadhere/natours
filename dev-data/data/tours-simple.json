@@ -135,5 +135,11 @@
     "startDates": ["2021-12-16,10:00", "2022-01-16,10:00", "2022-12-12,10:00"]
   },
   { "id": 9, "name": "Test tour", "duration": "10 days", "difficulty": "easy" },
-  { "id": 10, "name": "Test tour", "duration": "20 days", "difficulty": "easy" }
+  {
+    "id": 10,
+    "name": "Test tour",
+    "duration": "20 days",
+    "difficulty": "easy",
+    "field": "this field is edited via a patch request."
+  }
 ]

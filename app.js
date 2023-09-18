@@ -42,6 +42,28 @@ app.get(`/api/v1/tours/:id`, (req, res) => {
   res.status(200).json({ message: 'success', data: { tour } });
 });
 
+app.patch(`/api/v1/tours/:id`, (req, res) => {
+  const { id: idFromUrl } = req.params;
+  const tour = tours.find((tour) => tour.id === +idFromUrl);
+
+  if (!tour) {
+    return res.status(404).json({ status: 'fail', message: 'Id not found' });
+  }
+
+  const updatedItem = req.body;
+  const newTours = tours.map((tour) =>
+    tour.id === +idFromUrl ? { ...tour, ...updatedItem } : tour
+  );
+
+  fs.writeFile(
+    `${__dirname}/dev-data/data/tours-simple.json`,
+    JSON.stringify(newTours),
+    () => {
+      res.status(201).json({ message: 'success', data: newTours });
+    }
+  );
+});
+
 const PORT = 8000;
 
 app.listen(PORT, () => {
