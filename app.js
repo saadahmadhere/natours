@@ -1,7 +1,12 @@
 const fs = require('fs');
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
+
+// MIDDLEWARES
+app.use(morgan('dev'));
+
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -28,6 +33,8 @@ const getAllTours = (req, res) => {
     },
   });
 };
+
+// ROUTE HANDLERS
 
 const addTour = (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
@@ -92,6 +99,8 @@ const deleteTour = (req, res) => {
   );
 };
 
+// ROUTES
+
 // app.get('/api/v1/tours', getAllTours);
 // app.post('/api/v1/tours', addTour);
 // app.get(`/api/v1/tours/:id`, getSingleTour);
@@ -104,6 +113,9 @@ app
   .get(getSingleTour)
   .patch(updateTour)
   .delete(deleteTour);
+
+
+// START THE SERVER
 
 const PORT = 8000;
 
