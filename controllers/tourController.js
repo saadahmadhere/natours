@@ -14,6 +14,16 @@ exports.checkID = (req, res, next, val) => {
   next();
 };
 
+exports.checkNameAndPriceOfTour = (req, res, next) => {
+  if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('price')) {
+    return res
+      .status(404)
+      .json({ status: 'fail', message: 'Name and price are required' });
+  }
+
+  next();
+};
+
 exports.getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
