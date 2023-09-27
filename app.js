@@ -4,11 +4,11 @@ const morgan = require('morgan');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
-const app = express()
+const app = express();
 
 // MIDDLEWARES
-console.log(process.env.NODE_ENV)
-if(process.env.NODE_ENV === 'development'){
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev')); // this is to get the logger (like GET /api/v1/tours 200 6.176 ms - 8817)
 }
 app.use(express.json());
