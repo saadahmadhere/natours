@@ -32,6 +32,17 @@ exports.getAllTours = async (req, res) => {
   }
 };
 
+exports.getSingleTour = async (req, res) => {
+  try {
+    const tour = await Tour.findById(req.params.id);
+    // const tour = await Tour.findOne({ _id: req.params.id });
+    res.status(200).json({ message: 'success', data: { tour } });
+  } catch (error) {
+    res.status(404).json({ message: 'fail', error: error });
+  }
+  // const tour = tours.find((tour) => tour.id === +idFromUrl);
+};
+
 exports.createTour = async (req, res) => {
   try {
     const newTour = await Tour.create(req.body);
@@ -55,12 +66,6 @@ exports.createTour = async (req, res) => {
   //     console.log('file written successfully');
   //   },
   // );
-};
-
-exports.getSingleTour = (req, res) => {
-  // const { id: idFromUrl } = req.params;
-  // const tour = tours.find((tour) => tour.id === +idFromUrl);
-  // res.status(200).json({ message: 'success', data: { tour } });
 };
 
 exports.updateTour = (req, res) => {
