@@ -71,14 +71,11 @@ exports.updateTour = async (req, res) => {
   }
 };
 
-exports.deleteTour = (req, res) => {
-  // const { id: idFromUrl } = req.params;
-  // const newTours = tours.filter((tour) => tour.id !== +idFromUrl);
-  // fs.writeFile(
-  //   `${__dirname}/dev-data/data/tours-simple.json`,
-  //   JSON.stringify(newTours),
-  //   () => {
-  //     res.status(204).json({ message: 'success', data: null });
-  //   },
-  // );
+exports.deleteTour = async (req, res) => {
+  try {
+    const newTour = await Tour.findByIdAndRemove(req.params.id);
+    res.status(201).json({ message: 'success', data: newTour });
+  } catch (error) {
+    res.status(400).json({ status: 'fail', message: 'Fields not complete.' });
+  }
 };
