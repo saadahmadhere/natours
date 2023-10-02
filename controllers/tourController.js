@@ -40,7 +40,6 @@ exports.getSingleTour = async (req, res) => {
   } catch (error) {
     res.status(404).json({ message: 'fail', error: error });
   }
-  // const tour = tours.find((tour) => tour.id === +idFromUrl);
 };
 
 exports.createTour = async (req, res) => {
@@ -55,33 +54,21 @@ exports.createTour = async (req, res) => {
   } catch (error) {
     res.status(400).json({ status: 'fail', message: 'Fields not complete.' });
   }
-  // const newId = tours[tours.length - 1].id + 1;
-  // const newTour = { id: newId, ...req.body };
-  // tours.push(newTour);
-  // fs.writeFile(
-  //   `${__dirname}/dev-data/data/tours-simple.json`,
-  //   JSON.stringify(tours),
-  //   () => {
-  //     res.status(201).json({ data: newTour });
-  //     console.log('file written successfully');
-  //   },
-  // );
 };
 
-exports.updateTour = (req, res) => {
-  // const { id: idFromUrl } = req.params;
-  // const tour = tours.find((tour) => tour.id === +idFromUrl);
-  // const updatedItem = req.body;
-  // const newTours = tours.map((tour) =>
-  //   tour.id === +idFromUrl ? { ...tour, ...updatedItem } : tour,
-  // );
-  // fs.writeFile(
-  //   `${__dirname}/dev-data/data/tours-simple.json`,
-  //   JSON.stringify(newTours),
-  //   () => {
-  //     res.status(201).json({ message: 'success', data: newTours });
-  //   },
-  // );
+exports.updateTour = async (req, res) => {
+  try {
+    const filter = { _id: req.params.id };
+    const update = req.body;
+
+    const newTour = await Tour.findOneAndUpdate(filter, update, {
+      new: true,
+      runValidators: true,
+    });
+    res.status(201).json({ message: 'success', data: newTour });
+  } catch (error) {
+    res.status(400).json({ status: 'fail', message: 'Fields not complete.' });
+  }
 };
 
 exports.deleteTour = (req, res) => {
