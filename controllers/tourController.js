@@ -24,7 +24,18 @@ exports.getAllTours = (req, res) => {
   // });
 };
 
-exports.createTour = (req, res) => {
+exports.createTour = async (req, res) => {
+  try {
+    const newTour = await Tour.create(req.body);
+    res.status(201).json({
+      status: 'success',
+      data: {
+        tour: newTour,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({ status: 'fail', message: 'Fields not complete.' });
+  }
   // const newId = tours[tours.length - 1].id + 1;
   // const newTour = { id: newId, ...req.body };
   // tours.push(newTour);
