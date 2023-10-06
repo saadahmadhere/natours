@@ -21,7 +21,14 @@ exports.getAllTours = async (req, res) => {
 
     excluedFields.forEach((el) => delete queryObject[el]);
 
-    const query = Tour.find(queryObject);
+    // filtering:
+    // .find({price: {$gte: 340}, rating: {$lte: 4.5})
+    console.log(queryObject);
+    let queryStr = JSON.stringify(queryObject);
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
+    queryStr = JSON.parse(queryStr);
+
+    const query = Tour.find(queryStr);
     //another mehtod of writing queries:
     // const tours = await Tour.find()
     //   .where('duration')
