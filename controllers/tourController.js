@@ -15,7 +15,23 @@ exports.checkNameAndPriceOfTour = (req, res, next) => {
 
 exports.getAllTours = async (req, res) => {
   try {
-    const tours = await Tour.find();
+    // BUILD THE QUERY
+    const queryObject = { ...req.query };
+    const excluedFields = ['page', 'sort', 'limit', 'fields'];
+
+    excluedFields.forEach((el) => delete queryObject[el]);
+
+    const query = Tour.find(queryObject);
+    //another mehtod of writing queries:
+    // const tours = await Tour.find()
+    //   .where('duration')
+    //   .equals(5)
+    //   .where('rating')
+    //   .gte(4.5);
+
+    // EXECUTE THE QUERY.
+    const tours = await query;
+
     res.status(200).json({
       status: 'success',
       requestedAt: req.requestTime,
