@@ -38,6 +38,15 @@ exports.getAllTours = async (req, res) => {
     } else {
       query = query.sort('-createdAt');
     }
+
+    // 3) FIELD LIMITING
+    if (req.query.fields) {
+      const selectFields = req.query.fields.split(',').join(' ');
+      query = query.select(selectFields);
+    } else {
+      query = query.select('- __v');
+    }
+
     //another mehtod of writing queries:
     // const tours = await Tour.find()
     //   .where('duration')
@@ -45,7 +54,6 @@ exports.getAllTours = async (req, res) => {
     //   .where('rating')
     //   .gte(4.5);
 
-    // 2) SORTING
     // EXECUTE THE QUERY.
     const tours = await query;
 
