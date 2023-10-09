@@ -16,19 +16,28 @@ exports.checkNameAndPriceOfTour = (req, res, next) => {
 exports.getAllTours = async (req, res) => {
   try {
     // BUILD THE QUERY
+    // 1A) FILTERING
     const queryObject = { ...req.query };
     const excluedFields = ['page', 'sort', 'limit', 'fields'];
-
     excluedFields.forEach((el) => delete queryObject[el]);
 
     // filtering:
     // .find({price: {$gte: 340}, rating: {$lte: 4.5})
-    console.log(queryObject);
+
+    // 1B) Advanced filtering
     let queryStr = JSON.stringify(queryObject);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
     queryStr = JSON.parse(queryStr);
 
-    const query = Tour.find(queryStr);
+    let query = Tour.find(queryStr);
+
+    // 2) Sorting
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort('-createdAt');
+    }
     //another mehtod of writing queries:
     // const tours = await Tour.find()
     //   .where('duration')
@@ -36,6 +45,7 @@ exports.getAllTours = async (req, res) => {
     //   .where('rating')
     //   .gte(4.5);
 
+    // 2) SORTING
     // EXECUTE THE QUERY.
     const tours = await query;
 
