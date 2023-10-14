@@ -1,16 +1,10 @@
 const Tour = require('../models/tourModel');
 
-// const tours = JSON.parse(
-//   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
-// );
-
-exports.checkNameAndPriceOfTour = (req, res, next) => {
-  // if (!req.body.hasOwnProperty('name') || !req.body.hasOwnProperty('price')) {
-  //   return res
-  //     .status(404)
-  //     .json({ status: 'fail', message: 'Name and price are required' });
-  // }
-  // next();
+exports.topTourAliasMiddleware = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = 'price,-ratingsAverage';
+  req.query.fields = 'name,ratingsAverage,price,summary';
+  next();
 };
 
 exports.getAllTours = async (req, res) => {
@@ -18,6 +12,7 @@ exports.getAllTours = async (req, res) => {
     // BUILD THE QUERY
     // 1A) FILTERING
     const queryObject = { ...req.query };
+    console.log(queryObject);
     const excluedFields = ['page', 'sort', 'limit', 'fields'];
     excluedFields.forEach((el) => delete queryObject[el]);
 
