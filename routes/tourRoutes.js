@@ -5,8 +5,6 @@ const {
   getSingleTour,
   updateTour,
   deleteTour,
-  checkID,
-  checkNameAndPriceOfTour,
 } = require('../controllers/tourController');
 
 const router = express.Router();
