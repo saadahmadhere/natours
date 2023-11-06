@@ -32,6 +32,7 @@ const toursSchema = new mongoose.Schema(
       required: [true, 'A tour must have a summary'],
     },
     description: { type: String, trim: true },
+    secretTour: { type: Boolean, default: false },
     imageCover: {
       type: String,
       required: [true, 'A tour must have a cover image'],
@@ -68,6 +69,21 @@ toursSchema.pre('save', function (next) {
 //   console.log(doc);
 //   next();
 // });
+
+// QUERY MIDDLEWARE
+// toursSchema.pre('find', function (next) {
+toursSchema.pre(/^find/, function (next) {
+  // the regex is to ensure that the query runs for all the find methods like find, findOne, findOneAndDelete, etc.
+  this.find({ secretTour: { $ne: true } });
+  this.start = Date.now();
+  next();
+});
+
+toursSchema.post(/^find/, function (doc, next) {
+  console.log(`Query took ${Date.now() - this.start} milliseconds`);
+  // console.log(doc);
+  next();
+});
 
 const Tour = mongoose.model('Tour', toursSchema);
 
