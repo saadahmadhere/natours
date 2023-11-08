@@ -74,14 +74,21 @@ toursSchema.pre('save', function (next) {
 // toursSchema.pre('find', function (next) {
 toursSchema.pre(/^find/, function (next) {
   // the regex is to ensure that the query runs for all the find methods like find, findOne, findOneAndDelete, etc.
-  this.find({ secretTour: { $ne: true } });
+  this.find({ secretTour: { $ne: true } }); // here, this points to the the current document.
   this.start = Date.now();
   next();
 });
 
 toursSchema.post(/^find/, function (doc, next) {
-  console.log(`Query took ${Date.now() - this.start} milliseconds`);
+  console.log(`Query took ${Date.now() - this.start} milliseconds`); // here, 'this' points to the current query.
   // console.log(doc);
+  next();
+});
+
+// AGGREGATION MIDDLEWARE
+toursSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  console.log(this.pipeline());
   next();
 });
 
