@@ -56,7 +56,7 @@ exports.createTour = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({ status: 'fail', message: 'Fields not complete.' });
+    res.status(400).json({ status: 'fail', message: error });
   }
 };
 
@@ -71,7 +71,7 @@ exports.updateTour = async (req, res) => {
     });
     res.status(201).json({ message: 'success', data: newTour });
   } catch (error) {
-    res.status(400).json({ status: 'fail', message: 'Fields not complete.' });
+    res.status(400).json({ status: 'fail', message: error });
   }
 };
 
